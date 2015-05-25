@@ -39,20 +39,22 @@ public:
 //1.是0.
 //2.overflow.可以用longlong来表示结果,最后和INT_MIN比较INT_MAX,INT在前.
 //3.如果是负数,直接进行运算不会有影响.x%10得到最末尾的数字,然后x/10;而res=res*10+x末尾的数字.
-//int 范围是-32768到32767,在c++中是MIN_INT,MAX_INT.即-2的31次方到2的31次方-1;
+//int 范围不是-32768到32767!!!!!16位的时候才是!!!usigned int是0到65535.
+//在c++中是MIN_INT,MAX_INT.即-2的31次方到2的31次方-1,-2147483648到2147483647,10位数.
 
 //第一版代码
 class Solution {
 public:
     int reverse(int x) {
-        vector<int> a;//就一个a.
-        a.resize(6);//resize
-        int i = 0, result = 0;
-        int tmp, n;
-        if (x>32767 || x<-32768)
+        vector <int>a;
+        a.resize(11);
+        int i = 0;
+        long long result = 0;//这里必须不能是int,因为这样的话,它永远都不会超界.
+        int tmp = x, n;
+        if (x>INT_MAX || x<INT_MIN)
             return 0;
-        if (x < 0)
-            tmp = 0 - x;
+        if(x<0)
+            tmp = 0 -x;
         while(tmp != 0)
         {
             a[i] = tmp%10;
@@ -60,16 +62,12 @@ public:
             i++;
         }
         n = i;
-        for (i = 0;i<n;i++) {
-            if (result > 32768)
-                return 0;
-            else
+        for (i = 0;i<n;i++) 
                 result = result * 10 +a[i];
-        }
-        if (result == 32768 && x>0)
-            return 0;
-        if (x<0)
-            result = 0-result;
+        if (x < 0)
+            result = 0 - result;
+        if (result > INT_MAX || result <INT_MIN)
+                return 0;
         return result;
     }
 };
