@@ -1,0 +1,17 @@
+Given an array of integers, find if the array contains any duplicates. Your function should return true if any value appears at least twice in the array, and it should return false if every element is distinct.
+
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        int n = nums.size();
+        for (int i = 0; i < n-1; i++) {
+            if (nums[i] != nums[i+1])
+                continue;
+            else
+                return true;
+        }
+        return false;
+    }
+};
+//排序sort时间复杂度是nlogn,能把时间复杂度降下来.不然如果用深搜的思想,就是n的平方.
