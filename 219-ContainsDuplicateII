@@ -1,0 +1,31 @@
+/*题目理解比较耗时:at most k:i和j的差的绝对值最大是k.
+找出矩阵中,是否存在相同的两个数,并且他们的坐标之差不大于k;
+*/
+/*有可能一直存在不止一个相同的数字.不过这样时间复杂度至少为n的平方.*/
+/*map的key不能相同?不然insert就不行?
+这道题其他的解法?*/
+class Solution {
+public:
+    bool containsNearbyDuplicate(vector<int>& nums, int k) {
+            int n = nums.size();
+            if (k <= 0 || n <= 1)/*边界情况要注意考虑到.矩阵size为1的情况*/
+                return false;
+            int key, index;
+            vector<int>::iterator p;
+            for (int i = 0; i < n-1; i++)
+            {
+                key = nums[i];
+                p = find(nums.begin()+i+1, nums.end(), key);
+                if (p == nums.end())
+                    continue;
+                else//while (p != nums.end())
+                {
+                    index = p - nums.begin();
+                    if (index - i <= k) return true;
+                    //else p = find(nums.begin()+index+1, nums.end(), key);
+                }
+            }
+            return false;
+    }
+};
+   
