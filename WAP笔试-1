@@ -1,0 +1,115 @@
+//
+//  main.cpp
+//  Snake
+//
+//  Created by 月嘉 李 on 15/5/29.
+//  Copyright (c) 2015年 月嘉 李. All rights reserved.
+//
+
+#include <iostream>
+#include <string>
+typedef long long LL;
+using namespace std;
+
+LL getscores(LL **v, int n, int m)
+{
+    int i, j;
+    int k;
+    LL max_score = -1;
+    LL left, up;
+    LL down;
+    LL **max_v = new LL* [n];
+    LL **max2_v = new LL* [n];
+    for (LL tmp = 0; tmp < n; tmp++)
+    {
+        max_v[tmp] = new LL [m + 1];
+        max2_v[tmp] = new LL [m + 1];
+    }
+
+    memset(*max_v, 0, n*(m+1)*sizeof(LL));
+    memset(*max2_v, 0, n*(m+1)*sizeof(LL));
+    for(i = 0; i < n; i++) {
+        max_v[i][0] = 0;
+        max2_v[i][0] = 0;
+    }
+    
+    for(j = 1; j <= m; j++) {
+            for (i = 0; i < n; i++) {
+                if(v[i][j-1] == -1) {
+                    max_v[i][j] = -1;
+                    continue;
+                }
+                left = (max_v[i][j-1] == -1)? (-1):(max_v[i][j-1] + v[i][j-1]);
+                max_v[i][j] = max(left, max_v[i][j]);
+
+                if (i == 0)
+                {
+                } else if(i == n-1) {
+                    up = (max_v[i-1][j] == -1)?(-1):(max_v[i-1][j] + v[i][j-1]);
+                    max_v[i][j] = max(max_v[i][j], up);
+                } else {
+                    up = (max_v[i-1][j] == -1)?(-1):(max_v[i-1][j] + v[i][j-1]);
+                    max_v[i][j] = max(max_v[i][j], up);
+                }
+            }
+            for (k = n-1; k>=0; k--){
+                if(v[k][j-1] == -1) {
+                    max2_v[k][j] = -1;
+                    continue;
+                }
+                left = (max2_v[k][j-1] == -1)? (-1):(max2_v[k][j-1] + v[k][j-1]);
+                max2_v[k][j] = max(left, max2_v[k][j]);
+                
+                if (k == n-1) {
+                    down = (max_v[0][j] == -1)?(-1):(v[k][j-1]);
+                    max_v[k][j] = max(max_v[k][j], down);
+                }
+                else if (k == 0) {
+                    up = (max2_v[n-1][j] == -1)?(-1):(v[k][j-1]);
+                    max2_v[k][j] = max(max2_v[k][j], up);
+                    down = (max2_v[k+1][j] == -1)?(-1):(max2_v[k+1][j] + v[k][j-1]);
+                    max2_v[k][j] = max(max2_v[k][j], down);
+                }
+                else
+                {
+                    down = (max2_v[k+1][j] == -1)?(-1):(max2_v[k+1][j] + v[k][j-1]);
+                    max2_v[k][j] = max(max2_v[k][j], down);
+                }
+            }
+            for (i = 0; i < n; i++) {
+                max_v[i][j] = max(max_v[i][j], max2_v[i][j]);
+                max2_v[i][j] = max_v[i][j];
+            }
+    }
+    for (i = 0; i < n; i++)
+        max_score = max(max_score, max_v[i][m]);
+    delete [] *max_v;
+    delete [] max_v;
+    delete [] *max2_v;
+    delete [] max2_v;
+    return max_score;
+}
+int main() {
+    int n, m, row, col;
+    LL max_score;
+    cin >> n >> m;
+    LL **v = new LL* [n];
+    for (LL tmp = 0; tmp < n; tmp++)
+        v[tmp] = new LL [m];
+    
+    for(row = 0; row < n; row++)
+        for (col = 0; col < m; col++)
+            cin >> v[row][col];
+    max_score = getscores(v, n, m);
+    cout << max_score << endl;
+    return 0;
+}
+//long long 一定是64位,long在64位机器上是64bit,32位机器上是32bit.
+//注意啦!
+//int *p = new int[10],p指向一个数组,数组每个元素都是int,值没有初始化.
+//int *p = new int(10),p指向一个int,int的值是10.
+//memset(void *,int value,size_t),注意,size_t要是 n*sizeof(int),总之里面要有类型.除非是bool类型的,直接就是n.
+//如果是字符数组,第二个参数value就是ASCII值.
+//new和delete配套使用,new[]和delete[]配套使用.
+//输入输出重定向freopen(char *,"r",stdin),freopen(char*, "r",stdout).后面照常用输入输出.只需要在结尾加上fclose(stdin),fclose(stdout).
+//cerr 是标准错误输出流.
