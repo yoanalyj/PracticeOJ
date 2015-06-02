@@ -1,9 +1,52 @@
 /*题目理解比较耗时:at most k:i和j的差的绝对值最大是k.
 找出矩阵中,是否存在相同的两个数,并且他们的坐标之差不大于k;
 */
+/*先排序再查找,时间复杂度降低下来*/
+/*sort时间复杂度是n*logn*/
+typedef struct members {
+    int value;
+    int index;
+}members;
+bool cmp (const members &a, const members &b)//要是const,且引用,或者指针.
+{
+    if (a.value < b.value)
+        return true;
+    else if(a.value == b.value) {
+        if (a.index < b.index)
+            return true;
+        else
+            return false;
+    } else
+        return false;
+}
+class Solution {
+public:
+    bool containsNearbyDuplicate(vector<int>& nums, int k) {
+            vector<members> mem;
+            members tmp;
+            int n = nums.size();
+            if (k <= 0 || n <= 1)/*边界情况要注意考虑到.矩阵size为1的情况*/
+                return false;
+            for(int i = 0; i < n; i++) {
+                tmp.value = nums[i];
+                tmp.index = i;
+                mem.push_back(tmp);
+            }
+            sort(mem.begin(), mem.end(), cmp);//sort函数是关键.
+            for (int i = 0; i < n-1; i++) {
+                if (mem[i].value != mem[i+1].value) {
+                    continue;
+                } else {
+                    var++;
+                    if(mem[i+1].index - mem[i].index <= k) //只要存在即可,所以只需要找vector相邻的两个差.
+                        return true;
+                }
+            }
+            return false;
+    }
+};
+
 /*有可能一直存在不止一个相同的数字.不过这样时间复杂度至少为n的平方.*/
-/*map的key不能相同?不然insert就不行?
-这道题其他的解法?*/
 class Solution {
 public:
     bool containsNearbyDuplicate(vector<int>& nums, int k) {
@@ -28,4 +71,3 @@ public:
             return false;
     }
 };
-   
