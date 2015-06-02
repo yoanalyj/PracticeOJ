@@ -30,7 +30,7 @@ public:
             for(int i = 0; i < n; i++) {
                 tmp.value = nums[i];
                 tmp.index = i;
-                mem.push_back(tmp);
+                mem.push_back(tmp);//push_back(),中间有下划线.
             }
             sort(mem.begin(), mem.end(), cmp);//sort函数是关键.
             for (int i = 0; i < n-1; i++) {
