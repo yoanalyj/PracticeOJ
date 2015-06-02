@@ -37,7 +37,6 @@ public:
                 if (mem[i].value != mem[i+1].value) {
                     continue;
                 } else {
-                    var++;
                     if(mem[i+1].index - mem[i].index <= k) //只要存在即可,所以只需要找vector相邻的两个差.
                         return true;
                 }
