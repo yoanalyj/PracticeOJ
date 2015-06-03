@@ -1,0 +1,54 @@
+/*Given a linked list, remove the nth node from the end of list and return its head.
+
+For example,
+
+   Given linked list: 1->2->3->4->5, and n = 2.
+
+   After removing the second node from the end, the linked list becomes 1->2->3->5.
+Note:
+Given n will always be valid.
+Try to do this in one pass.*/
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ /*思路是正确的.找到需要删除的点的前一个点.然后删除.
+ 再考虑特殊情况,删除最后一个点和删除第一个点.*/
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        if (head->next == NULL && n == 1)
+            return NULL;
+        if (head == NULL)
+            return NULL;
+        ListNode* front = head;
+        ListNode* back = head;
+        ListNode* tmp;
+        for (int i = 0; i < n; i++)
+            back = back->next;
+        if(back == NULL) {//删除第一个点
+            tmp = head;
+            head = head->next;
+            delete tmp;
+            return head;
+        }
+        while(back->next != NULL) {
+            front = front->next;
+            back = back->next;
+        }
+        /*if (n == 1) {//删除最后一个点,可归到下面正常情况.
+            front->next = NULL;
+            return head;
+        }*/
+        if (back->next == NULL) {//正常情况
+                tmp = front->next;
+                front->next = tmp->next;//刚开始写成front->next = back;脑子里不清
+                delete tmp;
+                return head;
+        } 
+    }
+};
