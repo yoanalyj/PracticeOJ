@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int countPrimes(int n) {
+        if (n == 1 || n == 0) return 0;//要考虑n=0情况,非负,即0和正数
+        vector<bool> nums(n-1, true);//建立一个bool数组.记录是否是质数.
+        int i, j, res = 0;
+        nums[0] = false;
+        nums[1] = false;
+        for (i = 2; i * i < n; i++) {//从2遍历到n的平方根,把目前已知的质数的倍数都标记为false.
+            if (nums[i]) {
+                for (j = i; i * j < n; j++) {//从i开始,i乘以比自己大的数即i*(i+ 倍数)=i*i+i的倍数,因为小的,算比它小的那些质数时已经算过
+                    nums[i * j] = false;
+                }
+            }
+        }
+        for (i = 2; i < n; i++)
+            if (nums[i]) res++;
+        return res;
+    }
+};
+//vector用法
+//vector就是动态数组.
+//vector<T> a;产生一个空的vector,其中没有任何元素.
+//vector<T> a(n);生成一个大小为n的vector.
+//vector<T> a(n, value);生成一个大小为n的vector,每个元素的值都是value
