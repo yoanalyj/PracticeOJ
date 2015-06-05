@@ -1,0 +1,61 @@
+/*
+Given two strings s and t, determine if they are isomorphic.
+
+Two strings are isomorphic if the characters in s can be replaced to get t.
+
+All occurrences of a character must be replaced with another character while preserving the order of characters. No two characters may map to the same character but a character may map to itself.
+
+For example,
+Given "egg", "add", return true.
+
+Given "foo", "bar", return false.
+
+Given "paper", "title", return true.
+
+Note:
+You may assume both s and t have the same length.
+ */
+/*判断给定字符串是否是同构的。规定同构的字符保证s1中的每个字符都存在唯一的映射到s2对应的字符。并且这种映射要求不能一对多，也不能多对一。
+如 ab a
+a映射给a  b就不能再映射给a了。*/
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        map<char, char> map1, map2;
+        map<char, char>::iterator pos1, pos2;
+        int n = s.size();//s.size(), s.length()一样.
+        
+        if (!n) return true;
+        map1.insert(make_pair(s[0], t[0]));
+        map2.insert(make_pair(t[0], s[0]));
+        for (int i = 1; i < n; i++) {
+            pos1 = map1.find(s[i]);
+            pos2 = map2.find(t[i]);
+            if (pos1 == map1.end()) {
+                if (pos2 == map2.end()){
+                    map1.insert(make_pair(s[i], t[i]));
+                    map2.insert(make_pair(t[i], s[i]));
+                }
+                else
+                    return false;
+            }
+            else {
+                if (pos1->second != t[i])
+                    return false;
+            }
+        }
+        return true;
+    }
+};
+//map使用
+//用于key/value,且key支持严格的小于操作.不能有相同的key
+//不能试图改变key值,可以改变value值.
+/*
+map1.size()
+map1.find(key),复杂度n*logn.如果找到返回pos迭代器,pos->first为key,pos->second为value;如果找不到,返回map.end();
+map1.insert(make_pair(key,value))
+map1.lower_bound(key),返回>=key的第一个pos
+map1.upper_bound(key),返回等于key的最后一个位置的下一个位置.也就是>key的第一个位置.
+map1.equal_range(key),返回等于key的元素区间.
+map1.erase(pos++),没有返回值.map1.erase(pos)后不能再使用pos,pos++会将pos移到下一个元素,但是返回原始值的一个副本.
+*/
