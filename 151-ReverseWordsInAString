@@ -1,0 +1,33 @@
+class Solution {
+public:
+    void reverseWords(string &s) {
+        stack<string> v;
+        string tmp;
+        size_t n = s.size();
+        if (n == 0) return;
+        for (size_t i = 0; i < n; i++) {
+            if (s[i] == ' ') {
+                while(i+1 < n && s[i+1] == ' ')
+                    i++;
+            } else {
+                tmp.push_back(s[i]);
+                if (i == n-1 || s[i+1] == ' ') {
+                    v.push(tmp);
+                    tmp.clear();
+                }
+            }
+        }
+        s.clear();
+        if (v.empty()) return;
+        while (!v.empty()) {
+            s = s + v.top() + " ";
+            v.pop();
+        }
+        s.erase(s.begin() + n - 1);
+    }
+};
+//string.pushback(c),string.insert(pos, c)
+//string.erase三种用法
+//erase(pos,n); 删除从pos开始的n个字符，比如erase(0,1)就是删除第一个字符
+//erase(position);删除position处的一个字符(position是个string类型的迭代器)
+//erase(first,last);删除从first到last之间的字符（first和last都是迭代器）
