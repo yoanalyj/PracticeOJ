@@ -1,0 +1,46 @@
+/*
+You are a professional robber planning to rob houses along a street. 
+Each house has a certain amount of money stashed, the only constraint stopping you 
+from robbing each of them is that adjacent houses have security system connected and 
+it will automatically contact the police if two adjacent houses were broken into on the same night.
+Given a list of non-negative integers representing the amount of money of each house, 
+determine the maximum amount of money you can rob tonight without alerting the police.
+*/
+//简单的动态规划DP,维护两个变量,一个是包含最后一个字符的最大值, 一个是不包含最后一个字符的最大值.最后求 max(in[n-1], out[n-1]).
+//那么rob当前的house，只能等于上次没有rob的+money[i+1],而没有rob当前house的,等于上次没有rob的和上次rob值的最大值,即max(rob[i-1],norob[i-1]).
+//而最大和子串的DP,维护一个变量,即包含最后一个数字的能达到的最大和,最终求的最大值有可能发生在中间遍历的过程中.所以每次遍历的时候,都要更新一下max_value;而这道题只发生在最后两个数字中的比较中,只需要最后求.
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        if (!n) return 0;
+        int in, out;
+        in = nums[0];
+        out = 0;
+        for (int i = 1; i < n; i++) {
+            int pre_in = in;
+            int pre_out = out;
+            in = pre_out + nums[i];
+            out = max(pre_in, pre_out);
+        }
+        return max(in, out);
+    }
+};
+
+/*两种实现都可以.
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        if (!n) return 0;
+        int in[n], out[n];
+        in[0] = nums[0];
+        out[0] = 0;
+        for (int i = 1; i < n; i++) {
+            in[i] = out[i-1] + nums[i];
+            out[i] = max(in[i-1], out[i-1]);
+        }
+        return max(in[n-1], out[n-1]);
+    }
+};
+*/
