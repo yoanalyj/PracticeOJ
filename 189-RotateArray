@@ -24,7 +24,7 @@ public:
     }
 };*/
 //v.insert(pos,value), v.insert(pos,m,value), v.insert(pos,beg,end).  v.push_back(value)
-//v.erase(pos), v.erase(beg,end),返回下一个元素的位置.v.pop_back(),不回传.
+//v.erase(pos), v.erase(beg,end),返回下一个元素的位置.v.pop_back(),不回传. 而string.erase(pos, n),pos可以为下标
 //两个vector之间复制,v.assign(beg,end).v1 = v2.
 //两个vector互换,v1.swap(v2)
 
