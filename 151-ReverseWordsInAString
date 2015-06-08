@@ -52,7 +52,7 @@ public:
     }
 };
 //s[i]是字符,'a',不是"a".字符是可以转化为int的,但是字符串不能.
-//string.push_back(c),string.insert(pos, c),和vector一样.但是string只有erase,没有pop_back()
+//string.push_back(c),string.insert(pos, c),和vector一样.但是string只有erase,没有pop_back().而且,map.insert(),set.insert()不需要给出位置.
 //string.erase三种用法
 //s.erase(pos,n); 删除从pos开始的n个字符，比如erase(0,1)就是删除第一个字符
 //s.erase(position);删除position处的一个字符(position是个string类型的迭代器)
