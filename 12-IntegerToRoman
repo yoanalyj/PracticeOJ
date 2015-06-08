@@ -1,0 +1,49 @@
+/*
+Given an integer, convert it to a roman numeral.
+Input is guaranteed to be within the range from 1 to 3999.
+*/
+/*罗马数字规则：
+罗马数字共有7个，即I（1）、V（5）、X（10）、L（50）、C（100）、D（500）和M（1000）。
+罗马数字中没有“0”。
+重复次数：一个罗马数字最多重复3次。
+右加左减：
+在较大的罗马数字的右边记上较小的罗马数字，表示大数字加小数字。
+在较大的罗马数字的左边记上较小的罗马数字，表示大数字减小数字。
+左减的数字有限制，仅限于I、X、C，且放在大数的左边只能用一个。
+即V 和 X 左边的小数字只能用Ⅰ。
+即L 和 C 左边的小数字只能用X。
+即D 和 M 左 边的小数字只能用C。*/
+//思路,从最大的开始除,得到商,记下来.然后拿到余数,继续除.
+//如果是将罗马数字转变成整数,那么只需要遍历string罗马数字的每一位.不过要先查看下下一位对应的int是否大于该位.用map存,<char,int>,赋值就用map['M']
+class Solution {
+public:
+    string intToRoman(int num) {
+        string res;
+        vector<pair<int, string>> Rmap;
+        Rmap.push_back(make_pair(1000, "M"));
+        Rmap.push_back(make_pair(900, "CM"));
+        Rmap.push_back(make_pair(500, "D"));
+        Rmap.push_back(make_pair(400, "CD"));
+        Rmap.push_back(make_pair(100, "C"));
+        Rmap.push_back(make_pair(90, "XC"));
+        Rmap.push_back(make_pair(50, "L"));
+        Rmap.push_back(make_pair(40, "XL"));
+        Rmap.push_back(make_pair(10, "X"));
+        Rmap.push_back(make_pair(9, "IX"));
+        Rmap.push_back(make_pair(5, "V"));
+        Rmap.push_back(make_pair(4, "IV"));
+        Rmap.push_back(make_pair(1, "I"));
+        for (int i = 0; i < 13; i++) {
+            if (num / Rmap[i].first == 0)
+                continue;
+            for (int j = 0; j < num/Rmap[i].first; j++) {
+                res += Rmap[i].second;
+            }
+            num %= Rmap[i].first;
+        }
+        return res;
+    }
+};
+//查找,取得迭代器pos后,pos->first是key,pos->second是value;
+//插入,map.insert(make_pair(key,value)),而vector.push_back(value);map[key] = value,vector[i]=value;
+//定义的时候都是尖括号.pair<A,B>,vector<pair<int, int>>,map<string,int>,set<int>(map,set都是insert.set相比于vector优势在于查找复杂度低.)
