@@ -1,0 +1,55 @@
+/*Write a program to find the node at which the intersection of two singly linked lists begins.
+
+
+For example, the following two linked lists:
+
+A:          a1 → a2
+                   ↘
+                     c1 → c2 → c3
+                   ↗            
+B:     b1 → b2 → b3
+begin to intersect at node c1.
+
+
+Notes:
+
+If the two linked lists have no intersection at all, return null.
+The linked lists must retain their original structure after the function returns.
+You may assume there are no cycles anywhere in the entire linked structure.
+Your code should preferably run in O(n) time and use only O(1) memory.
+*/
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ //特殊情况的考虑,每次写完代码,最后一步要做的事情.
+ /*有以下几种思路：
+1.暴力破解:遍历链表A的所有节点，并且对于每个节点，都与链表B中的所有节点比较，退出条件是在B中找到第一个相等的节点。时间复杂度O(lengthA*lengthB)，空间复杂度O(1)。
+2.哈希表:遍历链表A，并且将节点存储到哈希表中。接着遍历链表B，对于B中的每个节点，查找哈希表，如果在哈希表中找到了，说明是交集开始的那个节点。时间复杂度O(lengthA+lengthB)，空间复杂度O(lengthA)或O(lengthB)。
+3.双指针法:指针pa、pb分别指向链表A和B的首节点。时间复杂度为(m+n+m)
+遍历链表A，记录其长度lengthA，遍历链表B，记录其长度lengthB。
+因为两个链表的长度可能不相同，比如题目所给的case，lengthA=5，lengthB=6，则作差得到 lengthB- lengthA=1，将指针pb从链表B的首节点开始走1步，即指向了第二个节点，pa指向链表A首节点，然后它们同时走，每次都走一步，当它们相等时，就是交集的节点。
+下面代码用的是原题作者的方法,和第三种一样,实现方式不一样,时间复杂度为(m+n).即pa和pb同时走,如果pa先走到头以后,pa指向headb,继续走.如果pb先走到头,pb指向heada.然后再同时走,再走一遍,就能实现同步走.
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        if (!headA || !headB) return NULL;//!!注意特殊情况的考虑
+        ListNode* pA = headA;
+        ListNode* pB = headB;
+        for(int i = 0; i < 3; i++) {
+            while (pA && pB) {
+                if (pA == pB) return pA;
+                pA = pA->next;
+                pB = pB->next;
+            }
+            if(pA) pB = headA;
+            else if(pB) pA = headB;
+        }
+        return NULL;
+    }
+};
