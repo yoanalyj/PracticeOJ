@@ -1,0 +1,60 @@
+/*
+Sort a linked list in O(n log n) time using constant space complexity.
+*/
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}//这里给了析构函数的用法.
+ * };
+ */
+//constant 常量的空间复杂度.
+//归并排序nlogn,space(1).先把数组分成两组,一直到一个个的,其实重点在于merge.而对于链表来说,每次分成一个个的时候,把head指向下一个,就避免了每次需要sort(head1),sort(head2),避免了head2需要移动到指定位置.这样时间复杂度通不过.
+class Solution {
+public:
+    ListNode* sortList(ListNode* head) {
+        if (head == NULL || head->next == NULL) return head;
+        int n = 1;
+        ListNode *pos = head;
+        while (pos->next) {
+            n++;
+            pos = pos->next;
+        }
+        return sortL(head, n);
+    }
+    
+    ListNode* sortL(ListNode* &head, int n) {
+        if (n == 0) return NULL;
+        if (n == 1) {
+            ListNode* pos = head;
+            head = head->next;//!
+            pos->next = NULL;//!让其成为真正的一个,所以一定要将其next设为空指针,这是链表归并排序需要注意的地方.
+            return pos;
+        }
+        ListNode* left = sortL(head, n/2);
+        ListNode* right = sortL(head, n - n/2);
+        return merge(left, right);
+    }
+    ListNode* merge(ListNode* left, ListNode* right) {
+        ListNode tmp(0); tmp.next = NULL;
+        ListNode* min;
+        ListNode* cur = &tmp;
+        while(left && right) {
+            if (left->val <= right->val) {
+                min = left;
+                left = left->next;
+            } else {
+                min = right;
+                right = right->next;
+            }
+            cur->next = min;
+            cur = cur->next;
+        }
+        if (left) 
+            cur->next = left;
+        if (right)
+            cur->next = right;
+        return tmp.next;
+    }
+};
