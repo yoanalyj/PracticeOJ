@@ -35,7 +35,8 @@ public:
             if(tmp->val == val) {
                 pos->next = tmp->next;
                 delete tmp;
-            }
+            } else {
+                pos = pos->next;
         }
         return head;
     }
