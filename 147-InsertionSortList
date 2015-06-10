@@ -1,0 +1,28 @@
+/*
+Sort a linked list using insertion sort.
+*/
+//这道题并不是重点在复杂度.插入排序,就是对一个已经有序的数组,一个一个查找,然后插进去.时间复杂度为n的平方.从第一个元素开始.排成有序的.再把第二个插进去.
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* insertionSortList(ListNode* head) {
+        ListNode h(0);
+        ListNode *t = &h, *cur;
+        while (head) {
+            for(t = &h; t->next != NULL && t->next->val < head->val; t=t->next);//用for循环把这个意思巧妙地表达出来了.
+            //这一步就是,每插入一个元素的时候都从头(h)开始找,直到找到t->next为空(没找到)或者找到了大于的位置.
+            cur = head;
+            head = head->next;
+            cur->next = t->next;
+            t->next = cur;
+        }
+        return h.next;
+    }
+};
