@@ -1,0 +1,16 @@
+/*
+Write a function to find the longest common prefix string amongst an array of strings.
+*/
+//简单之处在于公共,所有字符串都要有的.而且是前缀,从头开始.
+//string.substr(i,j)直接求得子串(i,j-1)
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        if (strs.empty()) return "";
+        int i, j;
+        for (i = 0; i < strs[0].size(); i++)
+            for (j = 1; j < strs.size(); j++) 
+                if (strs[0][i] != strs[j][i]) return strs[0].substr(0,i);
+        return strs[0].substr(0, i);
+    }
+};
