@@ -1,0 +1,44 @@
+/*Reverse a singly linked list.*/
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ //迭代(iteratively函数内部代码循环):从头开始,用三个指针实现一个个链表的reverse.
+/*class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if(!head) return head;
+        ListNode* pre = NULL;
+        ListNode* mid = head;
+        ListNode* post;
+        while (mid) {
+            post = mid->next;
+            mid->next = pre;
+            pre = mid;
+            mid = post;
+        }
+        return pre;
+    }
+};*/
+//递归(recursively函数自身调用自身),假设后边的都翻转过了,只需要把第一个翻转过来.
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if(!head) return head;
+        ListNode* h = process(head);
+        head->next = NULL;
+        return h;
+    }
+    ListNode* process(ListNode* head) {
+        if (head->next == NULL)
+            return head;
+        ListNode* p = head->next;
+        ListNode* h = process(p);
+        p->next = head;
+        return h;
+    }
+};
