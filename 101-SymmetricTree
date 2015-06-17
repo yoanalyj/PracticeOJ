@@ -44,3 +44,28 @@ public:
             return (cmpTree(left->left, right->right) && cmpTree(left->right, right->left));
     }
 };
+
+
+//迭代.用for循环实现或者栈.
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {
+        if (!root) return true;
+        stack<TreeNode*> s;
+        s.push(root->left);
+        s.push(root->right);
+        while (!s.empty()) {
+            TreeNode* t1 = s.top;
+            s.pop();
+            TreeNode* t2 = s.top;
+            s.pop();
+            if(!t1 && !t2) continue;
+            if (!t1 && t2 || t1 && !t2 || t1->val != t2->val) return false;
+            s.push(t1->right);
+            s.push(t2->left);
+            s.push(t1->left);
+            s.push(t2->right);
+        }
+        return true;
+    }
+};
