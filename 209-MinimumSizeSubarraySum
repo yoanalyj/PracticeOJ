@@ -1,0 +1,33 @@
+/*
+Given an array of n positive integers and a positive integer s, find the minimal length of a subarray of which the sum ≥ s. 
+If there isn't one, return 0 instead.
+
+For example, given the array [2,3,1,2,4,3] and s = 7,
+the subarray [4,3] has the minimal length under the problem constraint.
+*/
+//先想了想,没办法用动态.
+//复杂度为O(n).
+//最基本的思路把每个数字都遍历一遍,找到以它开头的所有序列.不过时间复杂度是n的平方.但是这里有trick可以节省时间.
+//当找到第一个sum>=s的,这个时候,就不需要往后找了.这是trick1.
+//第二个trick是,当找到第一个序列之后,直接把开头的指针往后移动一下,这时的序列如果就满足了sum>=s,继续把开头的指针往前移动,这个时候它就是从第二个数字开始最小的长度,因为如果不是的话,刚才第一个也不可能成立..如果不满足,继续把第二个指针往后移动.i和j同时移动,时间复杂度为O(n).
+class Solution {
+public:
+    int minSubArrayLen(int s, vector<int>& nums) {
+        if(nums.empty()) return 0;
+        int len = INT_MAX;
+        int sum = 0;
+        int i = 0, j = 0;
+        while (i <= j && j < nums.size()) {
+            sum += nums[j];
+            while (sum >= s && i < nums.size()) {
+                len = min(len, j-i+1);
+                sum -= nums[i];
+                i++;
+            }
+            j++;
+        }
+        return (len == INT_MAX)?0:len;
+    }
+};
+
+//时间复杂度为nlogn,想到排序.
