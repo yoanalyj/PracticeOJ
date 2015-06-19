@@ -1,0 +1,45 @@
+/*Given a roman numeral, convert it to an integer.
+
+Input is guaranteed to be within the range from 1 to 3999.*/
+/*罗马数字规则：
+罗马数字共有7个，即I（1）、V（5）、X（10）、L（50）、C（100）、D（500）和M（1000）。
+罗马数字中没有“0”。
+重复次数：一个罗马数字最多重复3次。
+右加左减：
+在较大的罗马数字的右边记上较小的罗马数字，表示大数字加小数字。
+在较大的罗马数字的左边记上较小的罗马数字，表示大数字减小数字。
+左减的数字有限制，仅限于I、X、C，且放在大数的左边只能用一个。
+即V 和 X 左边的小数字只能用Ⅰ。
+即L 和 C 左边的小数字只能用X。
+即D 和 M 左 边的小数字只能用C。*/
+/*将罗马数字转变成整数,那么只需要遍历string罗马数字的每一位.不过要先查看下下一位对应的int是否大于该位.用map存,<char,int>,赋值就用map['M'],用也用map['M']*/
+class Solution {
+public:
+    int romanToInt(string s) {
+        map<char, int> maps;
+        maps['I'] = 1;
+        maps['V'] = 5;
+        maps['X'] = 10;
+        maps['L'] = 50;
+        maps['C'] = 100;
+        maps['D'] = 500;
+        maps['M'] = 1000;
+        int res = 0;
+        char ch = s[0];
+        for (int i = 1; i < s.size(); i++) {
+            if (maps[s[i]] <= maps[ch]) 
+                res += maps[ch];
+            else 
+                res -= maps[ch];
+            ch = s[i];
+        }
+        res += maps[ch];
+        return res;
+    }
+};
+//map和vector用法.
+/*插入,map.insert(make_pair(key,value)),而vector.push_back(value),vector.insert(pos,value);
+赋值或者直接用,都可以用map[key] = value.
+用vector的时候,可以vector[i].first
+定义vector的时候可以vector<T> c,或者c(n),后者c(n, elem);
+*/
