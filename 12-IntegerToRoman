@@ -45,6 +45,7 @@ public:
     }
 };
 //查找,取得迭代器pos后,pos->first是key,pos->second是value;
-//插入,map.insert(make_pair(key,value)),而vector.push_back(value),也有insert,只不过需要pos,vector.insert(pos,value);
-//map[key] = value,vector[i]=value;
+//插入,map.insert(make_pair(key,value)),而vector.push_back(value),vector.insert(pos,value);赋值或者直接用,都可以用map[key] = value.
+//用vector的时候,可以vector[i].first
+//定义vector的时候可以vector<T> c,或者c(n),后者c(n, elem);
 //定义的时候都是尖括号.pair<A,B>,vector<pair<int, int>>,map<string,int>,set<int>(map,set都是insert.set相比于vector优势在于查找复杂度低.)
