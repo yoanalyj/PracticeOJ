@@ -23,7 +23,7 @@ Note: Recursive solution is trivial, could you do it iteratively?
  * };
  */
  //recursively递归.(首次手写bugfree)
- //用指针.和用引用效果应该是相同的.
+ //用指针.和用引用效果应该是相同的.如果用引用,只需要在process函数入口参数将指针改为&v.调用的时候,直接赋值res就可以了.
 /*class Solution {
 public:
     vector<int> preorderTraversal(TreeNode* root) {
