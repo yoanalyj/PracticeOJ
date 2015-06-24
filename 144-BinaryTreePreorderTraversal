@@ -1,0 +1,65 @@
+/*递归和迭代两种方法实现,先序遍历二叉树.
+Given a binary tree, return the preorder traversal of its nodes' values.
+
+For example:
+Given binary tree {1,#,2,3},
+   1
+    \
+     2
+    /
+   3
+return [1,2,3].
+
+Note: Recursive solution is trivial, could you do it iteratively?
+*/
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ //recursively递归.(首次手写bugfree)
+ //用指针.和用引用效果应该是相同的.
+/*class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        if (!root) return vector<int> ();
+        vector<int> res;
+        res.push_back(root->val);
+        process(root->left, &res);
+        process(root->right, &res);
+        return res;
+    }
+    bool process(TreeNode* r, vector<int> *v) {
+        if (!r) return true;
+        (*v).push_back(r->val);
+        if (r->left) process(r->left, v);
+        if (r->right) process(r->right, v);
+        return true;
+    }
+};*/
+
+//iteratively迭代.(首次bugfree)
+//先入栈右子树,再入栈左子树,才能保证出栈是先出左子树.
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        if (!root) return vector<int> ();
+        stack<TreeNode*> s;
+        vector<int> res;
+        res.push_back(root->val);
+        if (root->right) s.push(root->right);
+        if (root->left) s.push(root->left);
+        while (!s.empty()) {
+            TreeNode* tmp = s.top();
+            res.push_back(tmp->val);
+            s.pop();
+            if (tmp->right) s.push(tmp->right);
+            if (tmp->left) s.push(tmp->left);
+        }
+        return res;
+    }
+};
