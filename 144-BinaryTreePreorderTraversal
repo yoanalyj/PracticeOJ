@@ -1,4 +1,5 @@
 /*递归和迭代两种方法实现,先序遍历二叉树.
+//根左右.(没有根右左)
 Given a binary tree, return the preorder traversal of its nodes' values.
 
 For example:
