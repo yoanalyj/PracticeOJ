@@ -1,0 +1,74 @@
+/*用递归和迭代后序遍历二叉树.左右根.
+Given a binary tree, return the postorder traversal of its nodes' values.
+
+For example:
+Given binary tree {1,#,2,3},
+   1
+    \
+     2
+    /
+   3
+return [3,2,1].
+
+Note: Recursive solution is trivial, could you do it iteratively?
+*/
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ //recursly递归.
+/*class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> res;
+        process(root, res);
+        return res;
+    }
+    void process(TreeNode* r, vector<int> &v) {
+        if (!r) return;
+        if (r->left) process(r->left, v);
+        if (r->right) process(r->right, v);
+        v.push_back(r->val);
+        return;
+    }
+};
+*/
+//iteratively迭代.再用一个栈记录,该节点是否已经处理过左右子树,如果处理过,直接输出值.如果没有,先把左右子树压入栈.
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> res;
+        if (!root) return res;
+        stack<int> flag;
+        stack<TreeNode*> s;
+        s.push(root);
+        flag.push(2);
+        while (!s.empty()) {
+            TreeNode* tmp = s.top();
+            int f = flag.top();
+            if (f == 0) {
+                res.push_back(tmp->val);
+                s.pop();
+                flag.pop();
+                continue;
+            }
+            if (f == 2) {
+                flag.top() = 0;
+                if(tmp->right) {
+                    s.push(tmp->right);
+                    flag.push(2);
+                }
+                if(tmp->left) {
+                   s.push(tmp->left);
+                   flag.push(2);
+                }
+            }
+        }
+        return res;
+    }
+};
