@@ -1,0 +1,43 @@
+/*
+Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
+
+For example,
+"A man, a plan, a canal: Panama" is a palindrome.
+"race a car" is not a palindrome.
+
+Note:
+Have you consider that the string might be empty? This is a good question to ask during an interview.
+
+For the purpose of this problem, we define empty string as valid palindrome.
+*/
+//回文palindrome,正着念倒着念一样.就把顺序全部颠倒过来看是否一样.
+//!!这里小写和大写字母认为是一样的.
+//空的字符串认为也是回文.
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        if(s.empty())
+            return true;
+        string ss;
+        for(int i = 0; i < s.size(); i++) {
+            if (isalnum(s[i])) {
+                ss.push_back(s[i]);
+            }
+        }
+        int n = ss.size();
+        if (n <= 1) 
+            return true;
+        for (int i = 0; i <= (n-1)/2; i++) {
+            if(ss[i] != ss[n-1-i]) {
+                int ch = (ss[i]>ss[n-1-i])?(ss[i]-ss[n-1-i]):(ss[n-1-i]-ss[i]);
+                if (ch == ('a' - 'A'))
+                    continue;
+                else
+                    return false;
+            }
+        }
+        return true;
+    }
+};
+//!!!a比A的ascII码值大
+//isalpha(char)是否为英文字母,isdigit(char)是否为0-9数字,isalnum(char)是否为英文字母或者数字
