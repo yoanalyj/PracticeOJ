@@ -3,6 +3,7 @@
 */
 /*先排序再查找,时间复杂度降低下来*/
 /*sort时间复杂度是n*logn*/
+//还可以用map来实现吧,奥不对,map的key不能有重复的.
 typedef struct members {
     int value;
     int index;
