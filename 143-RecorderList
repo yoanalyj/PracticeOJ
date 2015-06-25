@@ -1,0 +1,81 @@
+/*
+Given a singly linked list L: L0→L1→…→Ln-1→Ln,
+reorder it to: L0→Ln→L1→Ln-1→L2→Ln-2→…
+
+You must do this in-place without altering the nodes' values.
+
+For example,
+Given {1,2,3,4}, reorder it to {1,4,2,3}.
+*/
+//in-place就地,原位
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+//思路1:用map表记录每个节点的地址.
+/*class Solution {
+public:
+    void reorderList(ListNode* head) {
+        if(!head) return;
+        map<int, ListNode*> lmap;
+        ListNode *p = head, *tmp;
+        int n = 0;
+        while (p!=NULL) {
+            lmap[n] = p;
+            n++;
+            p = p->next;
+        }
+        for (int i = 0; i < n/2; i++) {
+            tmp = lmap[i];
+            tmp->next = lmap[n-1-i];
+        }
+        for (int i = n-1; i > n/2; i--) {
+            tmp = lmap[i];
+            tmp->next = lmap[n-i];
+        }
+        tmp = lmap[n/2];
+        tmp->next = NULL;
+        head = lmap[0];
+    }
+};*/
+
+//思路2,发现原来就是将后n/2节点们插入到前半部分中.先找到中间节点[用快慢指针找到中间节点],然后把后半部分链表翻转[reverseLinklist做过,迭代(三个指针实现)和递归实现,且前后两半部分尾节点分别置为空].然后再将两个链表合并即可.
+class Solution {
+public:
+    void reorderList(ListNode* head) {
+        if (!head || !head->next) return;
+        ListNode h(0);
+        ListNode *slow = &h, *fast = &h;
+        h.next = head;
+        /*找到中间节点*/
+        while(fast->next) {
+            fast = (fast->next->next == NULL)?(fast->next):(fast->next->next);
+            slow = slow->next;
+        }
+        ListNode *pre = NULL, *mid = slow->next, *post;
+        slow->next = NULL;
+        
+        /*翻转*/
+        while (mid) {
+            post = mid->next;
+            mid->next = pre;
+            pre = mid;
+            mid = post;
+        }
+        
+        /*合并两个链表,pre表示后半部分链表头结点.head表示前半部分链表头结点*/
+        fast = head;
+        while (fast) {
+            ListNode *tmp = pre->next;
+            pre->next = fast->next;
+            fast->next = pre;
+            fast = pre->next;
+            pre = tmp;
+        }
+        return;
+    }
+};
