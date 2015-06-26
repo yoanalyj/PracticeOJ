@@ -69,7 +69,7 @@ public:
         
         /*合并两个链表,pre表示后半部分链表头结点.head表示前半部分链表头结点*/
         fast = head;
-        while (fast) {
+        while (pre) {
             ListNode *tmp = pre->next;
             pre->next = fast->next;
             fast->next = pre;
