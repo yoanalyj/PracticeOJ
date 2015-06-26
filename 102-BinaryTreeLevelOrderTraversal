@@ -1,0 +1,70 @@
+/*
+Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level).
+
+For example:
+Given binary tree {3,9,20,#,#,15,7},
+    3
+   / \
+  9  20
+    /  \
+   15   7
+return its level order traversal as:
+[
+  [3],
+  [9,20],
+  [15,7]
+]
+*/
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ //迭代法,广度优先遍历,用队列.这一题如果不是还要分层输出,直接用队列,就更简单了.在队列里,每一层结束的时候都加个标记,就知道什么时候这一层结束了.
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> res;
+        if(!root) return res;
+        queue<TreeNode*> qq;
+        vector<int> ll;
+        qq.push(root);
+        qq.push(NULL);
+        while (1) {
+            TreeNode* tmp = qq.front(); qq.pop();
+            if (!tmp) {
+                res.push_back(ll);
+                ll.clear();
+                if(qq.empty()) return res;//如果不在这个地方写,qq永远都会是非空.
+                qq.push(NULL);
+            } else {
+                ll.push_back(tmp->val);
+                if(tmp->left) qq.push(tmp->left);
+                if(tmp->right) qq.push(tmp->right);
+            }
+        }
+    }
+};
+
+/*
+//递归法,凡是有迭代的地方都可以用递归.在这里,是每次都处理每个节点,用level控制,把节点放在相应哪一层的位置里,然后再处理它的子节点.有level控制,不会有乱的地方.
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> res;
+        process(root, 1, res);
+        return res;
+    }
+    void process(TreeNode *root, int level, vector<vector<int>> &res) {
+        if (!root) return;
+        if (res.size() < level) res.push_back(vector<int>());
+        res[level-1].push_back(root->val);
+        process(root->left, level+1, res);
+        process(root->right, level+1, res);
+        return;
+    }
+};*/
