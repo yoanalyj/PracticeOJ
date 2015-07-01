@@ -1,0 +1,46 @@
+/*
+Given a binary tree, find its maximum depth.
+
+The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+*/
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ //直接用递归的思路.
+class Solution {
+public:
+    int maxDepth(TreeNode *root) {
+        if (!root) return 0;
+        return 1 + max(maxDepth(root->left), maxDepth(root->right));
+    }
+};
+
+ //用之前102题分层遍历二叉树的思路,就是看有几层.
+/*class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        if (!root) return 0;
+        queue<TreeNode*> res;
+        int n = 0;
+        res.push(root);
+        res.push(NULL);
+        while(1) {
+            TreeNode* tmp = res.front(); res.pop();
+            if (tmp) {
+                if (tmp->left) res.push(tmp->left);
+                if (tmp->right) res.push(tmp->right);
+            } else {
+                n++;
+                if(res.empty()) return n;
+                res.push(NULL);
+            }
+        }
+    }
+};*/
+//queue没有top(),只有queue.front();
