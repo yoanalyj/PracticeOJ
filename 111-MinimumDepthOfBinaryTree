@@ -1,0 +1,49 @@
+/*
+Given a binary tree, find its minimum depth.
+
+The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.
+*/
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+//迭代,按层遍历和求深度均用队列.求最大深度和按层遍历一样,求最小队列除了也需要记录到哪一层了(用下边的方法或者用空指针记录一下),但是结束条件不一样:找到哪个节点的左右子树都为空就可以结束了.
+class Solution {
+public:
+    int minDepth(TreeNode* root) {
+        if (!root) return 0;
+        queue<TreeNode*> res;
+        res.push(root);
+        TreeNode* key = root;
+        int n = 1;
+        while (1) {
+            TreeNode* tmp = res.front(); res.pop();
+            if (!tmp->left && !tmp->right) return n;
+            if (tmp->left) res.push(tmp->left);
+            if (tmp->right) res.push(tmp->right);
+            if (tmp == key) {
+                n++;
+                key = (tmp->right)?(tmp->right):(tmp->left);
+            }
+        }
+    }
+};
+
+
+//递归
+//和maxmum不同的是,需要注意一个子树为空另一个不为空,此时应取不为空的那个,因为leaf叶子节点指的就是左右子树均为空.另当depth为1时,只有一个root节点.
+/*class Solution {
+public:
+    int minDepth(TreeNode* root) {
+        if (!root) return 0;
+        if (root->left && root->right)
+            return 1 + min(minDepth(root->left), minDepth(root->right));
+        return 1 + max(minDepth(root->left), minDepth(root->right));
+    }
+};*/
+
