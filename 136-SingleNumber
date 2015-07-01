@@ -1,0 +1,33 @@
+//排序.
+/*class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        if (nums.size() == 1) return nums[0];
+        sort(nums.begin(), nums.end());
+        for(int i = 0; i < nums.size() - 1; i++) {
+            if (nums[i] != nums[i+1])
+                return nums[i];
+            else
+                i++;
+        }
+        return nums[nums.size()-1];
+    }
+};*/
+
+//根据异或的性质,a ^ b ^ c = a ^ （b ^ c） = （a ^ b） ^ c,异或运算是按位
+//那么1^2^3^4^4^3^2的结果就是2^2^3^3^4^4^1
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int res = nums[0];
+        for (int i = 1; i < nums.size(); i++) {
+            res ^= nums[i];
+        }
+        return res;
+    }
+};
+
+/*若需要交换两个变量的值，除了通常使用的借用中间变量进行交换外，还可以利用异或，仅使用两个变量进行交换，如：
+a=a^b;
+b=b^a;
+a=a^b;*/
