@@ -24,7 +24,7 @@ return its bottom-up level order traversal as:
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
-//只需要将每层插入到vector的begin位置.或者调用c++函数reverse(v.begin(), v.end())!!!
+//只需要将每层插入到vector的begin位置.或者调用c++函数reverse(v.begin(), v.end())!!!也有string.begin(),之前那些人太狡诈了.
 class Solution {
 public:
     vector<vector<int>> levelOrderBottom(TreeNode* root) {
