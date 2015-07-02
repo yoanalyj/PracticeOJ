@@ -1,3 +1,8 @@
+/*
+Implement strStr().
+
+Returns the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
+*/
 //暴力解法,时间复杂度为m*n.
 //下面解法只不过做了一点优化:当haystack后面的长度小于needle的长度时就不用再匹配了。
 //!!!空字符串的考虑,以及needle长度小于haystack长度的时候.
