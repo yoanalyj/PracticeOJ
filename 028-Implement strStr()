@@ -1,0 +1,27 @@
+//暴力解法,时间复杂度为m*n.
+//下面解法只不过做了一点优化:当haystack后面的长度小于needle的长度时就不用再匹配了。
+//!!!空字符串的考虑,以及needle长度小于haystack长度的时候.
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        if (needle.empty()) return 0;
+        if (haystack.size() < needle.size()) return -1;
+        int i, j;
+        for (i = 0;i <= haystack.size() - needle.size(); i++) {
+            if (haystack[i] == needle[0]) {
+                int pos = i;
+                j = 0;
+                while (j < needle.size() && haystack[pos] == needle[j]) {
+                    pos++;
+                    j++;
+                } 
+                if (j == needle.size())
+                    return pos-needle.size();
+            }
+        }
+        return -1;
+    }
+};
+
+
+//最经典解法KMP,不匹配之后能够计算出来从什么地方接着匹配.
