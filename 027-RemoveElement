@@ -1,0 +1,33 @@
+//排序.
+/*class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        sort(nums.begin(), nums.end());
+        for (int i = 0; i < nums.size(); i++) {
+            if (nums[i] == val) {
+                int pos = i;
+                i++;
+                while(i < nums.size() && nums[i] == val) i++;
+                nums.erase(nums.begin()+pos, nums.begin()+i);
+                break;
+            }
+        }
+        return nums.size();
+    }   
+};*/
+//vector.erase(begin,end),end始终是最后要删除的下一个.
+
+//另纯C覆盖解法.两个指针,不相同时均往后指,如果找到相同的,一个动,一个不动.直到找到再次不同的.
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        int len = 0;
+        for (int i = 0; i < nums.size(); i++) {
+            if (nums[i] != val) {
+                nums[len] = nums[i];
+                len++;
+            }
+        }
+        return len;
+    }   
+};
