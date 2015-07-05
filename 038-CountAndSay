@@ -1,0 +1,48 @@
+/*
+The count-and-say sequence is the sequence of integers beginning as follows:
+1, 11, 21, 1211, 111221, ...
+
+1 is read off as "one 1" or 11.
+11 is read off as "two 1s" or 21.
+21 is read off as "one 2, then one 1" or 1211.
+Given an integer n, generate the nth sequence.
+
+Note: The sequence of integers will be represented as a string.
+*/
+//弄清题意,这个序列是从1开始,而不是从整数n转换开始的,n只是表示求这个数列的第几个.
+//string 加减只能在string直接发生,如果是加一个字符,那就push_back,或者先push_back成一个string,再加减.
+//这里会不会出现超过十个以上个1的情况呢,如果有,就需要trans函数了.
+class Solution {
+public:
+    string countAndSay(int n) {
+        if (n <= 0) return "";
+        string res = "1";
+        while(n-1) {
+            string tmp;
+            int r = 1;
+            for (int i = 0; i < res.size(); i++) {
+                if (i == res.size()-1 || res[i] != res[i+1]) {
+                    //tmp += trans(r);
+                    tmp.push_back('0'+r);
+                    tmp.push_back(res[i]);
+                    r = 1;
+                } else {
+                    r = r + 1;
+                }
+            }
+            res = tmp;
+            n--;
+        }
+        return res;
+    }
+    string trans(int n) {
+        string res;
+        while (n) {
+            string s1;
+            s1.push_back(n%10 + '0');
+            res = s1 + res;
+            n = n/10;
+        }
+        return res;
+    }
+};
