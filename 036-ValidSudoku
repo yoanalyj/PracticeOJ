@@ -1,0 +1,45 @@
+/*
+Determine if a Sudoku is valid, according to: Sudoku Puzzles - The Rules.
+
+The Sudoku board could be partially filled, where empty cells are filled with the character '.'.
+
+
+A partially filled sudoku which is valid.
+
+Note:
+A valid Sudoku board (partially filled) is not necessarily solvable. Only the filled cells need to be validated.
+*/
+//数独用的是9*9的盘面,满足每一行都不能有重复的1-9数字,每一列也是,然后9个子矩阵也是.
+//如何记录已经出现的数字?有多少种数字,就建立一个多少的数组,数组的下标就是数字的值,出现一次,数组的值就加1.
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char>>& board) {
+        for (int i = 0; i < 9; i++) {
+            vector<int> row(9, 0), col(9, 0);
+            for (int j = 0; j < 9; j++) {
+                if(board[i][j] != '.') {
+                    if (row[board[i][j]-'1'] != 0) return false;
+                    else row[board[i][j]-'1']++;
+                }
+                if (board[j][i] != '.') {
+                    if (col[board[j][i]-'1'] != 0) return false;
+                    else col[board[j][i]-'1']++;
+                }
+            }
+        }
+        for (int k = 0; k < 9; k=k+3) {
+            for (int m = 0; m < 9; m=m+3) {
+                vector<int> row(9, 0);
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        if (board[i+k][j+m] != '.') {
+                            if (row[board[i+k][j+m]-'1'] != 0) return false;
+                            else row[board[i+k][j+m]-'1']++;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+};
