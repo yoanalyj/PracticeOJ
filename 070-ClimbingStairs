@@ -1,0 +1,23 @@
+//经典爬楼梯.
+//递归,但重复计算多,时间复杂度通不过.
+/*class Solution {
+public:
+    int climbStairs(int n) {
+        if (n == 1) return 1;
+        if (n == 2) return 2;
+        return climbStairs(n-1) + climbStairs(n-2);
+    }
+};*/
+//迭代,最好方法.
+class Solution {
+public:
+    int climbStairs(int n) {
+        vector<int> res(n+1);
+        res[1] = 1;
+        res[2] = 2;
+        for (int i = 3; i <= n; i++) {
+            res[i] = res[i-1]+res[i-2];
+        }
+        return res[n];
+    }
+};
