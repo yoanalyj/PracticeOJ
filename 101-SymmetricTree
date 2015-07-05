@@ -48,7 +48,7 @@ public:
 
 
 //迭代.用for循环实现,栈.
-//按层不论是遍历还是比较,就用栈.深度搜索的就用队列.
+//ps:按层遍历或者求高度/深度,就用队列.需要有个先来后到,把左右子树遍历完了,才去遍历子子树.
 class Solution {
 public:
     bool isSymmetric(TreeNode* root) {
