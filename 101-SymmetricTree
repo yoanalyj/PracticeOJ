@@ -30,6 +30,7 @@ confused what "{1,#,2,3}" means? > read more on how binary tree is serialized on
  如何求出镜像:即,拿到一个树,如果都为空,不做处理.否则,交换它的两个左右子树.
  什么样的特征才能达到镜像和自己是一样的.两个子树进行比较,如果是空,都要为空.如果都不空,那么值要一样,而且左的右子树和右的坐子树要一样,左的左子树要和右的右子树一样.
  */
+//递归
 class Solution {
 public:
     bool isSymmetric(TreeNode* root) {
@@ -46,7 +47,8 @@ public:
 };
 
 
-//迭代.用for循环实现或者栈.
+//迭代.用for循环实现,栈.
+//按层不论是遍历还是比较,就用栈.深度搜索的就用队列.
 class Solution {
 public:
     bool isSymmetric(TreeNode* root) {
