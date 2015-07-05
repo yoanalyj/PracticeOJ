@@ -1,0 +1,58 @@
+/*
+Invert a binary tree.
+
+     4
+   /   \
+  2     7
+ / \   / \
+1   3 6   9
+to
+     4
+   /   \
+  7     2
+ / \   / \
+9   6 3   1
+*/
+//和101镜像二叉树一样.
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+//递归
+class Solution {
+public:
+    TreeNode* invertTree(TreeNode* root) {
+        if (!root) return NULL;
+        TreeNode* tmp = root->left;
+        root->left = root->right;
+        root->right = tmp;
+        invertTree(root->left);
+        invertTree(root->right);
+        return root;
+    }
+};
+
+//迭代,需要处理完左子子树再去处理右子树,所以用栈.
+//调了半天竟然是s.empty()忘写非.
+class Solution {
+public:
+    TreeNode* invertTree(TreeNode* root) {
+        if (!root) return NULL;
+        stack<TreeNode*> s;
+        s.push(root);
+        while (!s.empty()) {
+            TreeNode* tmp = s.top(); s.pop();
+            if (tmp->right) s.push(tmp->right);
+            if (tmp->left) s.push(tmp->left);
+            TreeNode* k = tmp->left;
+            tmp->left = tmp->right;
+            tmp->right = k;
+        }
+        return root;
+    }
+};
