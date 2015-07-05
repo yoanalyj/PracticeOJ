@@ -1,0 +1,46 @@
+/*
+Given two binary strings, return their sum (also a binary string).
+
+For example,
+a = "11"
+b = "1"
+Return "100".
+*/
+//最低位的下标是n-1!!!
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        if (a.empty()) return b;
+        if (b.empty()) return a;
+        string res;
+        int i = a.size()-1, j = b.size()-1, tmp = 0;
+        while (max(i, j) >= 0) {
+            int c1, c2;
+            string s1;
+            if (i >= 0 && j >= 0) {
+                c1 = a[i]-'0';
+                c2 = b[j]-'0';
+            }
+            if (i < 0) {
+                c1 = 0;
+                c2 = b[j]-'0';
+            }
+            if(j < 0) {
+                c2 = 0;
+                c1 = a[i]-'0';
+            }
+            s1.push_back((c1+c2+tmp)%2 + '0');
+            tmp = (c1+c2+tmp)/2;
+            res = s1 + res;
+            i--;
+            j--;
+        }
+        while (tmp) {
+            string s1;
+            s1.push_back(tmp%2 + '0');
+            tmp = tmp/2;
+            res = s1 + res;
+        }
+        return res;
+    }
+};
