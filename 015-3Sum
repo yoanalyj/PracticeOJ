@@ -1,0 +1,49 @@
+/*
+Given an array S of n integers, are there elements a, b, c in S such that a + b + c = 0? 
+Find all unique triplets in the array which gives the sum of zero.
+Note:
+Elements in a triplet (a,b,c) must be in non-descending order. (ie, a ≤ b ≤ c)
+The solution set must not contain duplicate triplets.
+    For example, given array S = {-1 0 1 2 -1 -4},
+
+    A solution set is:
+    (-1, 0, 1)
+    (-1, -1, 2)
+*/
+//K sum是一类问题.思路是,递归成求两个数的和等于target.先进行排序,然后两个头尾指针同时移动.
+//注意:由于是返回value的组合,而不是下标的组合,因此对于相同的元素,要去重复.
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        if (nums.empty()) return vector<vector<int>>();
+        int target = 0;
+        vector<vector<int>> res;
+        sort(nums.begin(), nums.end());
+        for (int i = 0; i < nums.size()-2 && nums[i] <= target; i++) {//!!!i < N -2,nums[i]<=target
+            if (i > 0 && nums[i] == nums[i-1])//!!!去重复
+                continue;
+            int twosum = target - nums[i];
+            int pre = i+1, post = nums.size()-1;
+            while (pre < post) {
+                if (pre > i+1 && nums[pre] == nums[pre-1]) {//!!!去重复
+                    pre++;
+                    continue;
+                }
+                if (post < nums.size()-1 && nums[post] == nums[post+1]) {//去重复
+                    post--;
+                    continue;
+                }
+                if (nums[pre] + nums[post] > twosum) {
+                    post--;
+                } else if (nums[pre] + nums[post] < twosum) {
+                    pre++;
+                } else {
+                    res.push_back(vector<int>{nums[i], nums[pre], nums[post]});
+                    pre++;
+                    post--;
+                } 
+            }
+        }
+        return res;
+    }
+};
