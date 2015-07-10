@@ -52,7 +52,8 @@ public:
         return res;
     }
 };
-//K sum,用递归实现.
+
+//K sum,用递归实现通用解决办法.
 //http://tech-wonderland.net/blog/summary-of-ksum-problems.html
 class Solution {
 public:
