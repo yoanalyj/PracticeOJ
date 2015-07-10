@@ -15,11 +15,11 @@ The solution set must not contain duplicate triplets.
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
-        if (nums.empty()) return vector<vector<int>>();
+        if (nums.size() < 3) return vector<vector<int>>();
         int target = 0;
         vector<vector<int>> res;
         sort(nums.begin(), nums.end());
-        for (int i = 0; i < nums.size()-2 && nums[i] <= target; i++) {//!!!i < N -2,nums[i]<=target
+        for (int i = 0; i < nums.size()-2; i++) {
             if (i > 0 && nums[i] == nums[i-1])//!!!去重复
                 continue;
             int twosum = target - nums[i];
