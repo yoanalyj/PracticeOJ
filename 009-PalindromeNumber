@@ -1,7 +1,6 @@
 /*
 Determine whether an integer is a palindrome. Do this without extra space.
 */
-//和题190 reverseBits类似,比之更简单.每次移出来最末尾,然后n除以10,而且可以用n是否为0作为判断.190题不可以,因为会出现n为0001,而res需要移动三位.
 class Solution {
 public:
     bool isPalindrome(int x) {
@@ -13,3 +12,8 @@ public:
         return x == res;
     }
 };
+//对于整数的处理,分两种.
+//一种是求个位上的数,一种是求二进制位上最末位的数.
+//第一种,用n % 10, n = n/10;
+//第二种,用n & 1, n = n >> 1;
+//然后再进行处理.
