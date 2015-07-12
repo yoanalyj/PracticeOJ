@@ -19,3 +19,13 @@ public:
         return res;
     }
 };
+
+//另一种思路
+    res = 0;
+    /*把一个unsigned int 数字1一直左移，直到它变成全0的时候，也就得到了该机器内unsigned int的长度*/
+    for (i = 1; i != 0; i <<= 1)
+    {
+        res <<= 1;
+        if (n & 1) { res |= 1; }
+        n >>= 1;
+    }
