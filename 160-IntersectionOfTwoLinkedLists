@@ -34,6 +34,7 @@ Your code should preferably run in O(n) time and use only O(1) memory.
 遍历链表A，记录其长度lengthA，遍历链表B，记录其长度lengthB。
 因为两个链表的长度可能不相同，比如题目所给的case，lengthA=5，lengthB=6，则作差得到 lengthB- lengthA=1，将指针pb从链表B的首节点开始走1步，即指向了第二个节点，pa指向链表A首节点，然后它们同时走，每次都走一步，当它们相等时，就是交集的节点。
 下面代码用的是原题作者的方法,和第三种一样,实现方式不一样,时间复杂度为(m+n).即pa和pb同时走,如果pa先走到头以后,pa指向headb,继续走.如果pb先走到头,pb指向heada.然后再同时走,再走一遍,就能实现同步走.
+ 这样理解:a的前边长度为a,b的前边长度为b,公共长度为c,那么a+c + b 就等于b+c + a.最后结束的那个点就是交点.
  */
 class Solution {
 public:
