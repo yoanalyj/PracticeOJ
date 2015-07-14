@@ -1,0 +1,26 @@
+Given a string s and a dictionary of words dict, determine if s can be segmented into a space-separated sequence of one or more dictionary words.
+
+For example, given
+s = "leetcode",
+dict = ["leet", "code"].
+
+Return true because "leetcode" can be segmented as "leet code".
+//遇到没见过的动态规划,如果找不出状态转移方程.试着从递归的角度,就能找到动态转移方程的参数.递归是把大问题一步步化小,而动态规划就是反过来,从最开始的状态起.
+//这道题从递归的角度考虑,首先求字符串的一个前缀,然后剩下的递归这个函数,找后缀是否满足.那么反过来,从第一个字符开始找,是否在字典里,如果有就做上标记.然后看前两个字符,看能不能拆分.
+class Solution {
+public:
+    bool wordBreak(string s, unordered_set<string>& wordDict) {
+        if (s.empty() || wordDict.empty()) return false;
+        int N = s.size();
+        vector<bool> flag(N+1, false);
+        if (wordDict.find(s.substr(0,1)) != wordDict.end()) flag[0] = true;
+        for (int i = 1; i < N; i++)
+            for (int j = i-1; j >= 0; j--) {
+                if ((wordDict.find(s.substr(0, i+1)) != wordDict.end()) || (flag[j] && wordDict.find(s.substr(j+1, i-j)) != wordDict.end())) {
+                    flag[i] = true;
+                    break;
+                }
+            }
+        return flag[N-1];
+    }
+};
