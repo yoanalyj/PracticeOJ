@@ -1,0 +1,29 @@
+Given two numbers represented as strings, return multiplication of the numbers as a string.
+
+Note: The numbers can be arbitrarily large and are non-negative.
+//关键弄清以下的:
+//假设两个数字分别为N位和M位,那么乘积最大是N+M位.而num[i]和num[j]相乘的结果是放在res[i+j+1]位的.
+class Solution {
+public:
+    string multiply(string num1, string num2) {
+        int N = num1.size(), M = num2.size();
+        string res(N+M, '0');
+        for (int i = N-1; i >= 0; i--) {
+            int carry = 0;
+            for (int j = M-1; j >= 0; j--) {
+                int sum = carry + (res[i+j+1] - '0')+(num2[j] - '0')*(num1[i] - '0');
+                res[i+j+1] = sum%10 + '0';
+                carry = sum/10;
+            }
+            res[i] = res[i]+carry;
+        }
+        while (res.size()>1 && res[0] == '0') 
+            res.erase(res.begin());
+        return res;
+    }
+};
+//string.erase用法如下
+//(1)string& erase ( size_t pos = 0, size_t n = npos );
+//(2）iterator erase ( iterator position );
+//(3）iterator erase ( iterator first, iterator last );
+//string.substr(index),返回从index开始的字符串,index从0开始计数.string.substr(index,num),返回从index开始的字符串,字符串长度是num.
