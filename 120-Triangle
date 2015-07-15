@@ -1,0 +1,45 @@
+Given a triangle, find the minimum path sum from top to bottom. Each step you may move to adjacent numbers on the row below.
+
+For example, given the following triangle
+[
+     [2],
+    [3,4],
+   [6,5,7],
+  [4,1,8,3]
+]
+The minimum path sum from top to bottom is 11 (i.e., 2 + 3 + 5 + 1 = 11).
+//找到动态转移方程以后,即可以从下往上,也可以从上往下.
+//下面的是从下往上.
+/*class Solution {
+public:
+    int minimumTotal(vector<vector<int>>& triangle) {
+        int N = triangle.size();
+        if(!N) return 0;
+        vector<vector<int>> res(N);
+        vector<int> tmp(triangle[N-1].begin(), triangle[N-1].end());
+        res[N-1] = tmp;
+        for (int i = N-2; i >= 0; i--) {
+            int M = triangle[i].size();
+            vector<int> tmp1(M);
+            res[i] = tmp1;
+            for(int j = 0; j < M; j++) {
+                res[i][j] = min(res[i+1][j],res[i+1][j+1]) + triangle[i][j];
+            }
+        }
+        return res[0][0];
+    }
+};*/
+//空间复杂度为o(n)的实现.
+class Solution {
+public:
+    int minimumTotal(vector<vector<int>>& triangle) {
+        int N = triangle.size();
+        if (!N) return 0;
+        vector<int> res(triangle[N-1].begin(), triangle[N-1].end());
+        for (int i = N-2; i >= 0; i--)
+            for (int j = 0; j < triangle[i].size(); j++) {
+                res[j] = min(res[j], res[j+1]) + triangle[i][j];
+            }
+        return res[0];
+    }
+};
