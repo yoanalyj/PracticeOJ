@@ -1,0 +1,14 @@
+// 动态转移方程有些不一样,fit[i+1] = price[i+1]-minPrice.因为是从头开始的,每次维护一个minPrice,同时每次都计算一下max_fit就可以了.(另:可以开辟fit数组,也可以不开辟只用一个max,因为只要没有用到回溯)
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        if (prices.empty() || prices.size() == 1) return 0;
+        int maxfit = 0, minPrice = prices[0];
+        for (int i = 1; i < prices.size(); i++) {
+            maxfit = max(maxfit, prices[i] - minPrice);
+            if (prices[i] < minPrice)
+                minPrice = prices[i];
+        }
+        return maxfit;
+    }
+};
