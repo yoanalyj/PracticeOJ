@@ -1,0 +1,34 @@
+Given a 2D binary matrix filled with 0's and 1's, find the largest square containing all 1's and return its area.
+
+For example, given the following matrix:
+
+1 0 1 0 0
+1 0 1 1 1
+1 1 1 1 1
+1 0 0 1 0
+Return 4.
+//动态规划:矩阵类型的,关键在于找出关系式.比如最长公共子序列
+//最后的值需要在过程中寻找.并且最后求面积.
+//这道题,对于为1的,每次比较左上方三个数字,找最小的边长加1就是现在的边长.即S[i][j] = min(S[i][j-1], S[i-1][j], S[i-1][j-1]) + 1.
+//matrix并不一定是正方形.
+class Solution {
+public:
+    int maximalSquare(vector<vector<char>>& matrix) {
+        int n = matrix.size();
+        if (!n) return 0;
+        int m = matrix[0].size();
+        if (!m) return 0;
+        vector<int> tmp(m+1, 0);
+        vector<vector<int>> res(n+1, tmp);
+        int maxres = 0;
+        for (int i = 1; i <= n; i++) 
+            for (int j = 1; j <= m; j++) 
+                if (matrix[i-1][j-1] == '1') {
+                    res[i][j] = min(min(res[i-1][j], res[i][j-1]),res[i-1][j-1]) + 1;
+                    maxres = max(maxres, res[i][j]);
+                } else {
+                    res[i][j] = 0;
+                }
+        return maxres * maxres;
+    }
+};
