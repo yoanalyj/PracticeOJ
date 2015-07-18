@@ -1,0 +1,32 @@
+Note: This is an extension of House Robber.
+
+After robbing those houses on that street, the thief has found himself a new place for his thievery so that he will not get too much attention. This time, all houses at this place are arranged in a circle. That means the first house is the neighbor of the last one. Meanwhile, the security system for these houses remain the same as for those in the previous street.
+
+Given a list of non-negative integers representing the amount of money of each house, determine the maximum amount of money you can rob tonight without alerting the police.
+
+Credits:
+Special thanks to @Freezen for adding this problem and creating all test cases.
+//我们可以分别计算抢了从第二家到最后一家与抢从第一家到倒数第二家的最大值，取两个值中更大的那个就是结果。
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        if (nums.empty()) return 0;
+        if (nums.size() == 1) return nums[0];
+        int pre1 = 0, pre2 = nums[1], maxres1 = nums[1];
+        for (int i = 2; i < nums.size(); i++) {
+            int maxcur = max(pre1 + nums[i], pre2);
+            maxres1 = max(maxres1, maxcur);
+            pre1 = pre2;
+            pre2 = maxcur;
+        }
+        
+        int ppre1 = 0, ppre2 = nums[0], maxres2 = nums[0];
+        for (int i = 1; i < nums.size()-1; i++) {
+            int maxcur = max(ppre1 + nums[i], ppre2);
+            maxres2 = max(maxres2, maxcur);
+            ppre1 = ppre2;
+            ppre2 = maxcur;
+        }
+        return max(maxres1, maxres2);
+    }
+};
