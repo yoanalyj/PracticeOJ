@@ -32,3 +32,6 @@ public:
         return maxres * maxres;
     }
 };
+LCS的递推式为:
+if xi == yi res[i][j] = res[i-1][j-1]+1;
+if xi != yi res[i][j] = max(res[i-1][j], res[i][j-1]);因为LCS子序列不要求是连续的.
