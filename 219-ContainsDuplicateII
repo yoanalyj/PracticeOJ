@@ -46,9 +46,25 @@ public:
     }
 };
 
-//用map,每次插入前看一下是否有.
+//用map,每次插入前看一下是否有.map表查找复杂度为o(logn)
 bool containsNearbyDuplicate(vector<int>& nums, int k) {
         map<int, int> mm;
+        for (int i = 0; i < nums.size(); i++) {
+            if (mm.find(nums[i]) == mm.end()) {
+                mm.insert(make_pair(nums[i], i));
+            } else {
+                if (abs(i - mm.find(nums[i])->second) <= k) {
+                    return true;
+                }
+                mm.find(nums[i])->second = max(i, mm.find(nums[i])->second);
+            }
+        }
+        return false;
+    }
+    
+    //用hash表实现,查找复杂度为o(1)
+    bool containsNearbyDuplicate(vector<int>& nums, int k) {
+        unordered_map<int, int> mm;
         for (int i = 0; i < nums.size(); i++) {
             if (mm.find(nums[i]) == mm.end()) {
                 mm.insert(make_pair(nums[i], i));
