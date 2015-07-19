@@ -28,17 +28,13 @@ public:
 class Solution {
 public:
     ListNode* reverseList(ListNode* head) {
-        if(!head) return head;
-        ListNode* h = process(head);
-        head->next = NULL;
-        return h;
-    }
-    ListNode* process(ListNode* head) {
+        if (!head) return head;
         if (head->next == NULL)
             return head;
         ListNode* p = head->next;
         ListNode* h = process(p);
         p->next = head;
+        head->next = NULL;
         return h;
     }
 };
