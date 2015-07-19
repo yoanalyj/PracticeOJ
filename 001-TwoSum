@@ -32,26 +32,31 @@ public:
     }
 };
 
-//Mine code
-/*时间复杂度是n的平方,所以这个程序time limit超时,用上面的思路,感觉也没差别在哪儿,但是时间复杂度就降低了,感觉好鸡贼啊 */
+//map，set的设计是为了快速查找元素。
+所以设计为红黑树或平衡二叉树。
+
+如果楼主有随机访问的需求，
+要直接访问第二个元素。
+请使用vector。
+如果是对组，可以使用，
+vector< pair<std::string, int> > 
+iter + n == 随机访问,
+是要内存连续存储的，如vector，string。
 class Solution {
 public:
-    vector<int> twoSum(vector<int>& nums, int target) {
-        int t1, t2, i = 0;
-        vector<int> res;
-        vector<int>::iterator pos;
-        while(i < nums.size())
-        {
-            t1 = nums[i];
-            t2 = target - t1;
-            pos = find(nums.begin()+i, nums.end(), t2);
-            i++;
-            if (pos != nums.end())
-            {
-                int a = pos - nums.begin() + 1;
-                res.push_back(min(a, i));
-                res.push_back(max(a, i));
-                break;
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        multimap<int, int> mmp;
+        vector<int, int> res;
+        for (int i = 0; i<numbers.size(); i++){
+            mmp.insert(make_pair(numbers[i], i+1));
+        }
+        for (int i = 0; i < numbers.size(); i++) {
+            multimap<int, int>::iterator pos1, pos2;
+            pos1 = mmp.begin() + i;///!!!!!!错误,map不能使用iterator+i
+            pos2 = mmp.find(target - pos1->first);
+            if( pos2 != mmp.end()) {
+                res.push_back(pos1->second);
+                res.push_back(pos2->second);
             }
         }
         return res;
