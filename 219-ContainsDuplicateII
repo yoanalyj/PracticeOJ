@@ -3,7 +3,7 @@
 */
 /*先排序再查找,时间复杂度降低下来*/
 /*sort时间复杂度是n*logn*/
-//还可以用map来实现吧,奥不对,map的key不能有重复的.
+//还可以用map来实现
 typedef struct members {
     int value;
     int index;
@@ -46,28 +46,19 @@ public:
     }
 };
 
-/*有可能一直存在不止一个相同的数字.不过这样时间复杂度至少为n的平方.*/
-class Solution {
-public:
-    bool containsNearbyDuplicate(vector<int>& nums, int k) {
-            int n = nums.size();
-            if (k <= 0 || n <= 1)/*边界情况要注意考虑到.矩阵size为1的情况*/
-                return false;
-            int key, index;
-            vector<int>::iterator p;
-            for (int i = 0; i < n-1; i++)
-            {
-                key = nums[i];
-                p = find(nums.begin()+i+1, nums.end(), key);
-                if (p == nums.end())
-                    continue;
-                else//while (p != nums.end())
-                {
-                    index = p - nums.begin();
-                    if (index - i <= k) return true;
-                    //else p = find(nums.begin()+index+1, nums.end(), key);
+//用map,每次插入前看一下是否有.
+bool containsNearbyDuplicate(vector<int>& nums, int k) {
+        map<int, int> mm;
+        for (int i = 0; i < nums.size(); i++) {
+            if (mm.find(nums[i]) == mm.end()) {
+                mm.insert(make_pair(nums[i], i));
+            } else {
+                if (abs(i - mm.find(nums[i])->second) <= k) {
+                    return true;
                 }
+                mm.find(nums[i])->second = max(i, mm.find(nums[i])->second);
             }
-            return false;
+        }
+        return false;
     }
 };
