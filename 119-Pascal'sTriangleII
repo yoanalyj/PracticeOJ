@@ -13,7 +13,7 @@ class Solution {
 public:
     vector<int> getRow(int rowIndex) {
         if (rowIndex < 0) return vector<int>();
-        vector<int> res(rowIndex+1);
+        vector<int> res(rowIndex+1, 0);//理解这个,在于把每一行都补齐补0.
         res[0] = 1;
         for (int i = 1; i <= rowIndex; i++) {
             res[rowIndex] = 1;
