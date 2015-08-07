@@ -1,0 +1,69 @@
+Given a binary tree, return the inorder traversal of its nodes' values.
+
+For example:
+ Given binary tree {1,#,2,3},
+
+   1
+    \
+     2
+    /
+   3
+
+
+
+return [1,3,2]. 
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    /*vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> res;
+        process(root, res);
+        return res;
+    }
+    void process(TreeNode* root, vector<int> &res) {
+        if (!root) return;
+        process(root->left, res);
+        res.push_back(root->val);
+        process(root->right, res);
+        return;
+    }*/
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> res;
+        if (!root) return res;
+        stack<TreeNode*> s;
+        stack<int> ss;
+        s.push(root);
+        ss.push(2);
+        while(!s.empty()) {
+            int t = ss.top();
+            TreeNode* tmp = s.top();
+            if (t == 2) {
+                s.pop();ss.pop();
+                if (tmp->right) { 
+                    s.push(tmp->right);
+                    ss.push(2);
+                }
+                s.push(tmp);
+                ss.push(0);
+                if (tmp->left) {
+                    s.push(tmp->left);
+                    ss.push(2);
+                }
+            } else {
+                res.push_back(tmp->val);
+                s.pop();
+                ss.pop();
+            }
+        }
+        return res;
+    }
+};
