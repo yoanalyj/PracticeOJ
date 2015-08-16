@@ -63,4 +63,41 @@ public:
         }
         return res;
     }
+    
+    //参考,迭代,空间o(1)
+    vector<int> preorderTraversal(TreeNode *root) {  
+        vector<int> path;  
+        if (root == NULL)  
+            return path;  
+              
+        TreeNode *cur = root;  
+        TreeNode *pre = NULL;  
+          
+        while (cur != NULL)  
+        {  
+            if (cur->left == NULL)  
+            {  
+                path.push_back(cur->val);  
+                cur = cur->right;  
+            }  
+            else  
+            {  
+                pre = cur->left;  
+                while (pre->right != NULL && pre->right != cur)  
+                    pre = pre->right;  
+                if (pre->right == NULL)  
+                {  
+                    pre->right = cur;  
+                    path.push_back(cur->val);  
+                    cur = cur->left;  
+                }  
+                else  
+                {  
+                    pre->right = NULL;  
+                    cur = cur->right;  
+                }  
+            }  
+        }  
+        return path;  
+    } 
 };
