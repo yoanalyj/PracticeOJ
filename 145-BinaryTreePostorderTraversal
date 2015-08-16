@@ -71,4 +71,28 @@ public:
         }
         return res;
     }
+    
+    //每次记录一个pre和cur，cur表示当前节点，pre表示上次输出的节点(是上次输出的节点，不是上次访问的节点)，
+    如果pre正好是cur的左子树或者右子树，那么就可以输出cur，否则，说明还有cur的左子树或者右子树等待输出，也就是还没到cur输出的时候。
+    这是第一个可以让cur输出的条件。另外可以可以让cur输出的条件是，cur是叶子节。
+
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> res;
+        if (!root) return res;
+        stack<TreeNode*> s;
+        s.push(root);
+        TreeNode* pre;
+        while (!s.empty()) {
+            TreeNode* tmp = s.top();
+            if ((!tmp->left && !tmp->right) || (pre)&&(pre == tmp->left || pre == tmp->right)) {
+                s.pop();
+                res.push_back(tmp->val);
+                pre = tmp;
+            } else {
+                if (tmp->right) s.push(tmp->right);
+                if (tmp->left) s.push(tmp->left);
+            }
+        }
+        return res;
+    }
 };
