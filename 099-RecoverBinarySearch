@@ -1,0 +1,34 @@
+Two elements of a binary search tree (BST) are swapped by mistake.
+
+Recover the tree without changing its structure.
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ //重点要理解,中序遍历就是输出的BST的从小到大的序列.
+class Solution {
+public:
+    void recoverTree(TreeNode* root) {
+        TreeNode* m1 = NULL, *m2 = NULL, *pre = NULL;
+        process(root, m1, m2, pre);
+        swap(m1->val, m2->val);
+        return;
+    }
+    void process(TreeNode* &root, TreeNode* &m1, TreeNode* &m2, TreeNode* &pre) {
+        if (!root) return;
+        process(root->left, m1, m2, pre);
+        if (pre && pre->val > root->val) {
+            if (!m1) 
+                m1 = pre;
+            m2 = root;
+        }
+        pre = root;//关键
+        process(root->right, m1, m2, pre);
+        return;
+    }
+};
