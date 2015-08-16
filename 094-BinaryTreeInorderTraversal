@@ -36,6 +36,10 @@ public:
         process(root->right, res);
         return;
     }*/
+    
+    
+    
+    //非递归解法1
     vector<int> inorderTraversal(TreeNode* root) {
         vector<int> res;
         if (!root) return res;
@@ -66,4 +70,64 @@ public:
         }
         return res;
     }
+    //解法2
+    vector<int> inorderTraversal(TreeNode *root) {  
+        vector<int> path;  
+        stack<TreeNode *> st;  
+        if (root == NULL)  
+            return path;  
+        TreeNode *p = root;  
+        while (p != NULL || !st.empty())  
+        {  
+            while (p != NULL)  
+            {  
+                st.push(p);  
+                p = p->left;  
+            }  
+            if (!st.empty())  
+            {  
+                p = st.top();  
+                st.pop();  
+                path.push_back(p->val);  
+                p = p->right;  
+            }  
+        }  
+        return path;  
+    } 
+    //解法3
+    vector<int> inorderTraversal(TreeNode *root) {  
+        vector<int> path;  
+        if (root == NULL)  
+            return path;  
+              
+        TreeNode *cur = root;  
+        TreeNode *pre = NULL;  
+        while (cur != NULL)  
+        {  
+            if (cur->left == NULL)  
+            {  
+                path.push_back(cur->val);  
+                cur = cur->right;  
+            }  
+            else  
+            {  
+                pre = cur->left;  
+                while (pre->right != NULL && pre->right != cur)  
+                    pre = pre->right;  
+                if (pre->right == NULL)  
+                {  
+                    pre->right = cur;  
+                    cur = cur->left;  
+                }  
+                else  
+                {  
+                    pre->right = NULL;  
+                    path.push_back(cur->val);  
+                    cur = cur->right;  
+                }  
+            }  
+        }  
+        return path;  
+    }  
+
 };
