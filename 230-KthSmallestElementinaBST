@@ -6,7 +6,8 @@
  *     TreeNode *right;
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
- */
+ *//
+ 就是实现一个中序遍历,递归非递归均可.
 class Solution {
 public:
     int kthSmallest(TreeNode* root, int k) {
@@ -38,5 +39,24 @@ public:
                 if (n == k) return tmp->val;
             }
         }
+    }
+};
+//递归
+class Solution {
+public:
+    int kthSmallest(TreeNode* root, int k) {
+        int res, count = 0;
+        process(root, count, k, res);
+        return res;
+    }
+    bool process(TreeNode* root, int &count, int k, int &res) {
+        if (!root) return false;
+        if(process(root->left, count, k, res)) return true;
+        count++;
+        if (count == k) {
+            res = root->val;
+            return true;
+        }
+        return process(root->right, count, k, res);
     }
 };
