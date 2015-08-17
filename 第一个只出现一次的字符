@@ -1,0 +1,16 @@
+用hash表记录次数.然后再重新遍历一次,找出第一个hash值为1的字符.
+char process(string s) {
+    int n = s.size();
+    unordered_map<char, int> mmap;
+    for (int i = 0; i < n; i++) {
+        if (mmap.find(s[i]) != mmap.end()) {
+            mmap[s[i]]++;
+        } else {
+            mmap.insert(make_pair(s[i],1));
+        }
+    }
+    for (int i = 0; i < n; i++) {
+        if (mmap[s[i]] == 1)
+            return s[i];
+    }
+}
