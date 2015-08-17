@@ -17,6 +17,7 @@ int LCS(string s1, string s2) {
 }
 
 返回子序列
+!问清题意,有可能最大长度的子序列不止一个.看要返回几个.
 string LCS(string s1, string s2) {
     int n1 = s1.size(), n2 = s2.size();
     string s;
