@@ -3,6 +3,7 @@ Find the kth largest element in an unsorted array. Note that it is the kth large
 For example,
  Given [3,2,1,5,6,4] and k = 2, return 5. 
 
+//递归
 class Solution {
 public:
     int findKthLargest(vector<int>& nums, int k) {
@@ -34,5 +35,32 @@ public:
         nums[left] = nums[j-1];
         nums[j-1] = key;
         return j-1;
+    }
+};
+//非递归
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        int n = nums.size();
+        int beg = 0, end = n-1;
+        while (beg <= end) {
+            int pos = partition(nums, beg, end);
+            if (pos == n-k) return nums[pos];
+            else if (n-k < pos) end = pos-1;
+            else beg = pos+1;
+        }
+    }
+    
+    int partition(vector<int>& nums, int beg, int end) {
+        int key = nums[beg];
+        int pos = beg+1;
+        for (int i = beg+1; i <= end; i++) {
+            if (nums[i] < key) {
+                swap(nums[pos], nums[i]); 
+                pos++;
+            }
+        }
+        swap(nums[pos-1], nums[beg]);
+        return pos-1;
     }
 };
