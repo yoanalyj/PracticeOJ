@@ -1,0 +1,30 @@
+动态转移方程为
+s1[i] == s2[j], res[i][j] = res[i-1][j-1]+1;
+else 为0
+根据长度,回退长度,可以直接得到子串.
+
+!注意,如果返回子串,有可能存在不止一个最大长度的子串.
+string LCS(string s1, string s2) {
+    int n1 = s1.size(), n2 = s2.size();
+    string s;
+    if (!n1 || !n2) return 0;
+    vector<vector<int>> res(n1+1, vector<int>(n2+1, 0));
+    int count = 0, x = 0, y = 0;
+    for (int i = 1; i <= n1; i++)
+        for (int j = 1; j <= n2; j++) {
+            if (s1[i-1] == s2[j-1])
+                res[i][j] = 1+res[i-1][j-1];
+            else
+                res[i][j] = 0;
+            if (res[i][j] > count) {
+                count = res[i][j];
+                x=i-1;
+                y=j-1;
+            }
+        }
+    for (int i = x, j = y; ; i--, j--) {
+        if (s1[i] == s2[j]) s.insert(s.begin(), s1[i]);
+        else break;
+    }
+    return s;
+}
