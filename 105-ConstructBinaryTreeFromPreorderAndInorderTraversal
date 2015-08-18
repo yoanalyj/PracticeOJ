@@ -1,0 +1,35 @@
+Given preorder and inorder traversal of a tree, construct the binary tree.
+
+Note:
+You may assume that duplicates do not exist in the tree.
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        int n1 = preorder.size(), n2 = inorder.size();
+        if (!n1 || !n2) return NULL;
+        return buildProcess(preorder, 0, n1-1, inorder, 0, n2-1);
+    }
+    TreeNode* buildProcess(vector<int>& preorder, int beg1, int end1, vector<int>& inorder, int beg2, int end2) {
+        if (beg1 > end1 || beg2 > end2) return NULL;
+        TreeNode* res = new TreeNode(preorder[beg1]);
+        if (beg1 == end1 && beg2 == end2)
+            return res;
+        int rootval = preorder[beg1], i, leftnums, rightnums;
+        for (i = beg2; i <= end2; i++) 
+            if (inorder[i] == rootval) break;
+        leftnums = i-beg2;
+        rightnums = end2-i;
+        res->left = buildProcess(preorder, beg1+1, beg1+leftnums, inorder, beg2, i-1);
+        res->right = buildProcess(preorder, beg1+leftnums+1, end1, inorder, i+1, end2);
+        return res;
+    }
+};
