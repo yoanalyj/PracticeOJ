@@ -1,0 +1,41 @@
+struct cachenode {
+    int key;
+    int value;
+    cachenode(int k, int v):key(k), value(v){}
+};
+class LRUCache{
+private:
+    unordered_map<int , list<cachenode>::iterator> cmap;
+    list<cachenode> clist;
+    int size;
+public:
+    LRUCache(int capacity) {
+        size = capacity;
+    }
+    
+    int get(int key) {
+        if (cmap.find(key) != cmap.end()) {
+            clist.splice(clist.begin(), clist, cmap[key]);
+            return cmap[key]->value;
+        } else 
+            return -1;
+    }
+    
+    void set(int key, int value) {
+        if (cmap.find(key) != cmap.end()) {
+            clist.splice(clist.begin(), clist, cmap[key]);
+            cmap[key]->value = value;
+        } else {
+            if (size == clist.size()) {
+                cmap.erase(clist.back().key);
+                clist.pop_back();
+            }  
+            clist.push_front(cachenode(key, value));
+            cmap.insert(make_pair(key, clist.begin()));
+        }
+    }
+};
+
+/*list<elem> l：不支持随机存取，但是插入和删除后，指向其他元素的迭代器不会失效，这点不像vector。（虽然map支持下标操作，但是内存是随机放的。）
+l.push_front(x),l.push_back(x), l.pop_back(), l.pop_front()
+l.splice(pos, l, pos2)把l的pos2位置的移到l的pos位置前*/
