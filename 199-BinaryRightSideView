@@ -1,0 +1,44 @@
+Given a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.
+
+For example:
+Given the following binary tree,
+   1            <---
+ /   \
+2     3         <---
+ \     \
+  5     4       <---
+You should return [1, 3, 4].
+//分析：按层遍历。
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> rightSideView(TreeNode* root) {
+        vector<int> res;
+        if (!root) return res;
+        queue<TreeNode*> q;
+        q.push(root);
+        q.push(NULL);
+        while (!q.empty()) {
+            TreeNode* tmp = q.front();
+            q.pop();
+            if(tmp) {
+                if (!q.front()) {
+                    res.push_back(tmp->val);
+                }
+                if (tmp->left) q.push(tmp->left);
+                if (tmp->right) q.push(tmp->right);
+            } else {
+                if (q.empty()) return res;
+                q.push(NULL);
+            }
+        }
+    }
+};
