@@ -24,6 +24,7 @@ return [1,3,2].
  */
 class Solution {
 public:
+    //递归
     /*vector<int> inorderTraversal(TreeNode* root) {
         vector<int> res;
         process(root, res);
@@ -39,7 +40,8 @@ public:
     
     
     
-    //非递归解法1
+    //非递归
+    //解法1
     vector<int> inorderTraversal(TreeNode* root) {
         vector<int> res;
         if (!root) return res;
@@ -81,11 +83,9 @@ public:
                 s.push(node);
                 node = node->left;
             }
-            if (!s.empty()) {
-                node = s.top();s.pop();
-                res.push_back(node->val);
-                node = node->right;
-            }
+            node = s.top();s.pop();
+            res.push_back(node->val);
+            node = node->right;
         }
         return res;
     }
