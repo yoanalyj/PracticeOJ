@@ -24,6 +24,35 @@ return
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+ 
+class Solution {
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int sum) {
+        vector<vector<int>> res;
+        if (!root) return res;
+        if (root->val == sum && !root->left && !root->right) {
+            res.push_back(vector<int>{root->val});
+            return res;
+        } else {
+            vector<vector<int>> l = pathSum(root->left, sum-root->val);
+            if (!l.empty()) {
+                for (int i = 0; i < l.size(); i++) 
+                    l[i].insert(l[i].begin(), root->val);
+                res.insert(res.end(), l.begin(), l.end());
+            }
+            vector<vector<int>> r = pathSum(root->right, sum-root->val);
+            if (!r.empty()) {
+                for (int i = 0; i < r.size(); i++) 
+                    r[i].insert(r[i].begin(), root->val);
+                res.insert(res.end(), r.begin(), r.end());
+            }
+        }
+        return res;
+    }
+};
+
+
+/*加bool,其实不加即可.
 class Solution {
 public:
     vector<vector<int>> pathSum(TreeNode* root, int sum) {
@@ -55,4 +84,4 @@ public:
         }
         return make_pair(flag, res);
     }
-};
+};*/
