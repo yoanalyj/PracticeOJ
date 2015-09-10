@@ -1,0 +1,37 @@
+//复杂度o(n)
+//思路：记录每次能达到最大的位置，直到i超过这个位置才将步数加1。
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int n = nums.size();
+        if (!n) return 0;
+        int res = 0, end = 0, last = 0;
+        for (int i = 0; i < n; i++) {
+            if (i > last) {
+                last = end;
+                res++;
+                if (last >= n-1) break;
+            }
+            end = max(end, i+nums[i]);
+        }
+        return res;
+    }
+};
+
+//超时，复杂度是o(n^2)
+/*class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int n = nums.size();
+        if (!n) return 0;
+        vector<int> res(n, INT_MAX);
+        res[0] = 0;
+        for (int i = 1; i < n-1; i++) {
+            for (int j = 1; j <= nums[i]; j++) {
+                if (i+j < n) res[i+j] = min(res[i]+1, res[i+j]);
+                else break;
+            }
+        }
+        return res[n-1];
+    }
+};*/
