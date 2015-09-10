@@ -1,0 +1,31 @@
+//思路：记录从每个位置能走到的地方，但是只记录最远的那个，因为最远的那个都走到了，这个最远的前边所有的肯定也都走到了。end始终记录的是当前能走到的最大的位置，如果下一个i都比end大，那也就说明再也走不到i以后的位置了。
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        int n = nums.size();
+        if(!n) return true;
+        int end = 0;
+        for (int i = 0; end < n&& i <= end; i++) {
+            end = max(end, i+nums[i]);
+        }
+        return end >= n-1;
+    }
+};
+
+//超时。
+//思路：记录从每个位置能走到的地方。
+/*class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        int n = nums.size();
+        if(!n) return true;
+        vector<bool> res(n, false);
+        res[0] = true;
+        for (int i = 1; i < n-1; i++)
+            for (int j = 1; j <= nums[i]; j++) {
+                if (i+j < n) res[i+j] = res[i+j]|res[i];
+                else break;
+            }
+        return res[n-1];
+    }
+};*/
