@@ -1,3 +1,13 @@
+Given an array of non-negative integers, you are initially positioned at the first index of the array.
+
+Each element in the array represents your maximum jump length at that position.
+
+Determine if you are able to reach the last index.
+
+For example:
+A = [2,3,1,1,4], return true.
+
+A = [3,2,1,0,4], return false.
 //思路：记录从每个位置能走到的地方，但是只记录最远的那个，因为最远的那个都走到了，这个最远的前边所有的肯定也都走到了。end始终记录的是当前能走到的最大的位置，如果下一个i都比end大，那也就说明再也走不到i以后的位置了。
 class Solution {
 public:
